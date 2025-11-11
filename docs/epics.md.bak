@@ -1,0 +1,111 @@
+# marathon-trainer - Epic Breakdown
+
+**Author:** Rodney
+**Date:** 2025-11-11
+**Project Level:** Level 2 (Method track)
+**Target Scale:** Pilot cohort (~1k runners)
+
+---
+
+## Overview
+
+This document provides the complete epic and story breakdown for marathon-trainer, decomposing the requirements from the [PRD](./PRD.md) into implementable stories.
+
+**Epic Structure Proposal**
+
+1. **Foundation & Orchestration Enablement** – Establish the SwiftUI shell, LangGraph backend scaffolding, environments, and CI/CD so every other epic has a stable lane. Includes initial HealthKit permissions, secret management, and demo runner datasets. _Sequence: must land first._
+2. **Runner Profile & Data Intake** – Deliver conversational onboarding, consent/privacy flows, and manual FIT ingestion with background retry plus offline/read-only cache. Covers R1, R2, R7 (consent aspects), and groundwork for future sensors.
+3. **Analytics & Mastery Intelligence** – Build the processing pipeline that turns FIT data into mastery deltas, effort guidance, anomaly detection, and interfaces to downstream agents. Enforces the 5-minute SLA and stores rationale tags. Depends on Epic 2 data plumbing.
+4. **Adaptive Planning & Conversational Coach** – Generate weekly plans, handle schedule/injury/goal chat intents, surface plan cards, and update plans in-thread with rationale. Relies on Epics 2–3 for data + analytics.
+5. **PT Safety, Compliance & Demo Assets** – Implement PT-agent flows, injury guardrails, audit logging, accessible plan exports, and demo/reporting artifacts required for launch-readiness metrics. Can run partly in parallel with Epics 3–4 but final verification happens last.
+
+---
+
+
+## Epic 1: Foundation & Orchestration Enablement
+
+Establish the SwiftUI shell, LangGraph backend scaffolding, continuous integration, environment configuration, secrets management, and demo runner datasets so other epics can build on a reliable core. This epic delivers R1 prerequisites plus the infrastructure needed for ingestion, analytics, and chat.
+
+## Epic 1: Foundation & Orchestration Enablement
+
+Establish the SwiftUI shell, LangGraph backend scaffolding, continuous integration, environment configuration, secrets management, and demo runner datasets so other epics can build on a reliable core. This epic delivers R1 prerequisites plus the infrastructure needed for ingestion, analytics, and chat.
+
+
+
+## Epic 1: Foundation & Orchestration Enablement
+
+Establish the SwiftUI shell, LangGraph backend scaffolding, continuous integration, environment configuration, secrets management, and demo runner datasets so other epics can build on a reliable core. This epic delivers R1 prerequisites plus the infrastructure needed for ingestion, analytics, and chat.
+
+
+
+## Epic 1: Foundation & Orchestration Enablement
+
+Establish the SwiftUI shell, LangGraph backend scaffolding, continuous integration, environment configuration, secrets management, and demo runner datasets so other epics can build on a reliable core. This epic delivers R1 prerequisites plus the infrastructure needed for ingestion, analytics, and chat.
+
+
+
+## Epic 2: Runner Profile & Data Intake
+
+Deliver conversational onboarding, consent/privacy flows, manual FIT ingestion with background retry, and read-only offline cache so runners can onboard quickly and Coach George always has fresh data (covers PRD R1, R2, and consent pieces of R7).
+
+
+
+## Epic 2: Runner Profile & Data Intake
+
+Deliver conversational onboarding, consent/privacy flows, manual FIT ingestion with background retry, and read-only offline cache so runners can onboard quickly and Coach George always has fresh data (covers PRD R1, R2, and consent pieces of R7).
+
+
+
+## Epic 1: Foundation & Orchestration Enablement
+
+Establish the SwiftUI shell, LangGraph backend scaffolding, continuous integration, environment configuration, secrets management, and demo runner datasets so other epics can build on a reliable core. This epic delivers R1 prerequisites plus the infrastructure needed for ingestion, analytics, and chat.
+
+## Epic 2: Runner Profile & Data Intake
+
+Deliver conversational onboarding, consent/privacy flows, manual FIT ingestion with background retry, and read-only offline cache so runners can onboard quickly and Coach George always has fresh data (covers PRD R1, R2, and consent pieces of R7).
+
+
+
+## Epic 1: Foundation & Orchestration Enablement
+
+Establish the SwiftUI shell, LangGraph backend scaffolding, continuous integration, environment configuration, secrets management, and demo runner datasets so other epics can build on a reliable core. This epic delivers R1 prerequisites plus the infrastructure needed for ingestion, analytics, and chat.
+
+## Epic 2: Runner Profile & Data Intake
+
+Deliver conversational onboarding, consent/privacy flows, manual FIT ingestion with background retry, and read-only offline cache so runners can onboard quickly and Coach George always has fresh data (covers PRD R1, R2, and consent pieces of R7).
+
+
+
+## Epic 2: Runner Profile & Data Intake
+
+Deliver conversational onboarding, consent/privacy flows, manual FIT ingestion with background retry, and read-only offline cache so runners can onboard quickly and Coach George always has fresh data (covers PRD R1, R2, and consent pieces of R7).
+
+
+
+## Epic 2: Runner Profile & Data Intake
+
+Deliver conversational onboarding, consent/privacy flows, manual FIT ingestion with background retry, and read-only offline cache so runners can onboard quickly and Coach George always has fresh data (covers PRD R1, R2, and consent pieces of R7).
+
+
+
+## Epic 2: Runner Profile & Data Intake
+
+Deliver conversational onboarding, consent/privacy flows, manual FIT ingestion with background retry, and read-only offline cache so runners can onboard quickly and Coach George always has fresh data (covers PRD R1, R2, and consent pieces of R7).
+
+
+
+## Epic 2: Runner Profile & Data Intake
+
+Deliver conversational onboarding, consent/privacy flows, manual FIT ingestion with background retry, and read-only offline cache so runners can onboard quickly and Coach George always has fresh data (covers PRD R1, R2, and consent pieces of R7).
+
+
+
+## Epic 1: Foundation & Orchestration Enablement
+
+Establish the SwiftUI shell, LangGraph backend scaffolding, continuous integration, environment configuration, secrets management, and demo runner datasets so other epics can build on a reliable core. This epic delivers R1 prerequisites plus the infrastructure needed for ingestion, analytics, and chat.
+
+## Epic 2: Runner Profile & Data Intake
+
+Deliver conversational onboarding, consent/privacy flows, manual FIT ingestion with background retry, and read-only offline cache so runners can onboard quickly and Coach George always has fresh data (covers PRD R1, R2, and consent pieces of R7).
+
+<!-- Epic sections will be appended below as they are created. -->
