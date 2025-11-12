@@ -1,18 +1,24 @@
-# AGENTS GUIDE
+# Repository Guidelines
 
-## Project Overview
+## Project Structure & Module Organization
+SwiftUI lives in `mobile/ios/`, organized by feature folders (`Features/Onboarding`, `Features/PlanOverview`, `Features/StravaLinking`) with shared state kept in `RunnerProfileDraft`. The FastAPI + LangGraph backend sits in `services/orchestrator/`: `app/routes/` exposes onboarding + plan APIs, `app/strava/` manages OAuth and sync, and `app/planner/weekly_plan.py` emits rationale-rich workouts while Celery workers handle ingestion. CI workflows and Terraform modules stay under `infrastructure/`, and repo-root resources (`docker-compose.yml`, `.env.example`, docs) wire local Postgres/Redis.
 
-- AI marathon coach delivering adaptive 7-day training plans via SwiftUI mobile client plus orchestration backend. Runners supply race date, goal time, schedule constraints, and injury history so plans adjust with empathy and safety.
-- Multi-agent narrative: Coach George handles dialogue, analytics agent scores workout mastery and load deltas, PT agent enforces injury guardrails. Ensemble must react within five minutes when new Strava data or runner inputs arrive.
-- Core loop: onboarding → consent + Strava OAuth → Strava activity ingestion + telemetry → LangGraph planner composes rationale-rich plan → SwiftUI plan carousel & chat expose updates, even offline.
-- Success signals to preserve: 90% of workouts re-evaluated within SLA, rationale chips highlight at least four personalization factors, PT responses always accompany injury mentions, and cached plans remain readable offline with banners.
-- Primary scope is iOS + Python backend. Android/web, advanced mastery modeling, nutrition, and push notifications remain future work. Keep privacy/consent copy explicit (“not a doctor”) in every runner-facing flow.
+## Build, Test, and Development Commands
+- `make bootstrap-ios` – install Swift toolchains, lint/formatters, and resolve SPM deps.
+- `make bootstrap-backend` – create the Python venv, install FastAPI/Celery, seed `.env`.
+- `docker compose up` – run Postgres, Redis, orchestrator API, and Strava webhook tunnel.
+- `xcodebuild -scheme MarathonTrainer test` – run unit + snapshot suites headlessly.
+- `pytest services/orchestrator -q` – cover REST routes, planner logic, ingestion workers.
+- `make lint` – aggregate SwiftLint, SwiftFormat, Ruff, and Black before commits.
 
-## Architecture
+## Coding Style & Naming Conventions
+Swift uses 2-space indentation, UpperCamelCase types, lowerCamelCase members, and protocol-based ViewModels per feature. Extract subviews as files approach 200 lines and prefer async/await for networking while honoring existing Combine pipelines. Python follows PEP 8 with Black (88 cols) and Ruff; keep snake_case functions, CapWords classes, and type hints on planner nodes. Name directories by capability (`planner`, `strava`, `features`) and choose action-oriented filenames (`WeeklyPlanComposer.swift`, `weekly_plan.py`).
 
-- **Client (SwiftUI 5.10):** `mobile/ios/` hosts onboarding wizard (`Features/Onboarding`), plan carousel (`Features/PlanOverview`), `RunnerProfileDraft` state, and Strava linking UI (`ASWebAuthenticationSession`). Uses Combine + async/await networking, BackgroundTasks for sync retries, Keychain/FileManager for local drafts + cached plan JSON, VoiceOver-friendly components, and Snapshot/XCTest coverage.
-- **Backend (FastAPI + LangGraph):** `services/orchestrator/` contains REST routes (`app/routes/{onboarding,plans}.py`), Strava OAuth handlers (`app/strava/{oauth.py,sync.py,client.py}`), Celery/Redis-powered ingestion worker, and weekly plan composer (`app/planner/weekly_plan.py` with heuristics templates). Planner nodes output workout payloads plus rationale tags consumed by the client. Error handling degrades gracefully when Strava data lags.
-- **Data & Integrations:** Postgres 15 stores `RunnerProfile`, `StravaToken`, `Workout`, and `Plan` tables. Redis queues ingestion jobs and cache hints. Strava API v3 provides OAuth, webhook/polling ingestion (hourly), and activities fetch. Tokens encrypted via KMS/Keychain, PKCE enforced. Telemetry logs ingestion latency + plan generation timestamps for demo dashboards.
-- **Infrastructure & CI/CD:** GitHub Actions workflows under `infrastructure/github-actions/` run lint/tests for iOS + backend and publish Docker images. Terraform (e.g., `infrastructure/terraform/strava-webhook.tf`) provisions webhook endpoints, secrets, and future Render/AWS targets. Local dev uses `make bootstrap-ios`, `make bootstrap-backend`, Docker Compose for Postgres/Redis, `.env` with Strava sandbox keys, and `docker compose up` to run services.
-- **Testing & Quality:** iOS relies on XCTest + SnapshotTesting for onboarding and plan UI; backend uses Pytest + HTTPX test client; contract tests via Postman/Newman or schemathesis; manual E2E run with Strava sandbox athlete ensures plan delivery <5 minutes. Acceptance focuses on onboarding completion, plan rationale visibility, Strava status surfacing, and offline read-only mode.
-- **Workstream Alignment:** Epics emphasize foundation scaffolding, runner intake, analytics mastery pipeline, adaptive planning/chat, and PT safety + demo assets. When prioritizing tasks, preserve ordering dependencies: scaffolding → onboarding/data intake → analytics → adaptive planner → PT safeguards.
+## Testing Guidelines
+`mobile/ios/Tests/` hosts XCTest and SnapshotTesting with baselines stored in `__Snapshots__`; mirror screen names (e.g., `PlanOverviewViewTests`). Backend tests live in `services/orchestrator/tests/`, using Pytest + HTTPX with live Strava hits tagged `@pytest.mark.integration` and fixtures for Redis/Postgres. Maintain ≥80% coverage for planner modules, add a regression whenever ingestion logic changes, and document manual Strava sandbox runs inside the PR.
+
+## Commit & Pull Request Guidelines
+Commits stay short, imperative, and scoped (`Add PT guardrail banner`), with WIP noise squashed before pushing. PRs explain intent, link tickets, and call out migrations or Terraform edits. UI changes need screenshots or VoiceOver notes; backend work should attach sample JSON payloads and list the commands run (`make lint`, `pytest`, `xcodebuild … test`, `docker compose up`). Mention any telemetry or sandbox data touched.
+
+## Security & Configuration Tips
+Never commit `.env`, Strava tokens, or Keychain exports—use `.env.example`, Vault/KMS, and Keychain. Enforce PKCE, redact PII in logs, and keep the “not a doctor” disclaimer in runner-facing screens. Cached plans in `Application Support/Plans` stay readable offline with stale-data banners when telemetry lags.
